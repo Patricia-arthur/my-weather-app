@@ -1,8 +1,7 @@
 function currentTemperature(response) {
-  
     let currentTemperatureValue = document.querySelector("#current-temperature-value");
     let cityElement = document.querySelector("#current-city");
-    let temperature = response.data.temperature.current
+    let temperature = response.data.temperature.current;
     let descriptionElement = document.querySelector("#description");
     let humidityElement = document.querySelector("#humidity");
     let windSpeedElement = document.querySelector("#wind-speed");
@@ -10,24 +9,24 @@ function currentTemperature(response) {
     let date = new Date(response.data.time * 1000);
     let iconElement = document.querySelector("#icon");
 
-    iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" alt="${response.data.condition.description}" />`;
-    currentTemperatureValue.innerHTML = Math.round(temperature);
     cityElement.innerHTML = response.data.city;
     timeElement.innerHTML = formatDate(date);
     descriptionElement.innerHTML = response.data.condition.description;
     humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
     windSpeedElement.innerHTML = `${response.data.wind.speed} km/h`;
-  
-  }
+    currentTemperatureValue.innerHTML = Math.round(temperature);
+    iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="current-temperature-icon" />`;
+  };
   
   
   function search(event) {
     event.preventDefault();
     let searchInputElement = document.querySelector("#search-input");
-   let city = searchInputElement.value;
-  let apiKey = "a60b443a2tfe8a73acf74oa85192b9bc";
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
-  axios.get(apiUrl).then(currentTemperature);
+    let city = searchInputElement.value;
+    let apiKey = "a60b443a2tfe8a73acf74oa85192b9bc";
+   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
+   
+   axios.get(apiUrl).then(currentTemperature);
   }
   
   function formatDate(date) {
@@ -54,7 +53,6 @@ function currentTemperature(response) {
     ];
     let day = days[date.getDay()];
     return `${day} ${hours}:${minutes}`;
-  
   }
   
   let searchForm = document.querySelector("#search-form");
