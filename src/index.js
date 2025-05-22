@@ -2,8 +2,21 @@ function currentTemperature(response) {
   
     let currentTemperatureValue = document.querySelector("#current-temperature-value");
     let cityElement = document.querySelector("#current-city");
-    currentTemperatureValue.innerHTML = Math.round(response.data.temperature.current);
+    let temperature = response.data.temperature.current
+    let descriptionElement = document.querySelector("#description");
+    let humidityElement = document.querySelector("#humidity");
+    let windSpeedElement = document.querySelector("#wind-speed");
+    let timeElement = document.querySelector("#time");
+    let date = new Date(response.data.time * 1000);
+    let iconElement = document.querySelector("#icon");
+
+    iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" alt="${response.data.condition.description}" />`;
+    currentTemperatureValue.innerHTML = Math.round(temperature);
     cityElement.innerHTML = response.data.city;
+    timeElement.innerHTML = formatDate(date);
+    descriptionElement.innerHTML = response.data.condition.description;
+    humidityElement.innerHTML = `${response.data.temperature.humidity}%`;
+    windSpeedElement.innerHTML = `${response.data.wind.speed} km/h`;
   
   }
   
@@ -20,7 +33,7 @@ function currentTemperature(response) {
   function formatDate(date) {
     let minutes = date.getMinutes();
     let hours = date.getHours();
-    let day = date.getDay();
+    
   
     if (minutes < 10) {
       minutes = `0${minutes}`;
@@ -39,16 +52,12 @@ function currentTemperature(response) {
       "Friday",
       "Saturday"
     ];
+    let day = days[date.getDay()];
+    return `${day} ${hours}:${minutes}`;
   
-    let formattedDay = days[day];
-    return `${formattedDay} ${hours}:${minutes}`;
   }
   
   let searchForm = document.querySelector("#search-form");
   searchForm.addEventListener("submit", search);
   
-  let currentDateELement = document.querySelector("#current-date");
-  let currentDate = new Date();
-  
-  currentDateELement.innerHTML = formatDate(currentDate);
   
