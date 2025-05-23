@@ -58,6 +58,12 @@ function currentTemperature(response) {
     return `${day} ${hours}:${minutes}`;
   }
 
+  function getForecast(city) {
+    let apikey = "a60b443a2tfe8a73acf74oa85192b9bc";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}`;
+  }
+
+
   function displayForecast() {
     let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
     let forecastHtml = "";
