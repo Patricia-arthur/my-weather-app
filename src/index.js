@@ -18,15 +18,18 @@ function currentTemperature(response) {
     iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="current-temperature-icon" />`;
   };
   
-  
+  function searchCity(city) {
+    let apiKey = "a60b443a2tfe8a73acf74oa85192b9bc";
+    let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
+    
+    axios.get(apiUrl).then(currentTemperature);
+  }
+
   function search(event) {
     event.preventDefault();
     let searchInputElement = document.querySelector("#search-input");
     let city = searchInputElement.value;
-    let apiKey = "a60b443a2tfe8a73acf74oa85192b9bc";
-   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&unit=metric`;
-   
-   axios.get(apiUrl).then(currentTemperature);
+    searchCity(searchInputElement.value);
   }
   
   function formatDate(date) {
@@ -54,8 +57,36 @@ function currentTemperature(response) {
     let day = days[date.getDay()];
     return `${day} ${hours}:${minutes}`;
   }
+
+  function displayForecast() {
+    let days = ["Tue", "Wed", "Thu", "Fri", "Sat"];
+    let forecastHtml = "";
+
+   days.forEach(function(day) {
+    forecastHtml = forecastHtml + 
+    `
+      <div class="forecast-day">
+        <div class="forecast-date">${day}</div>
+        <div class="forecast-icon">🌤️</div>    
+        <div class="forecast-temperatures">
+          <div class="forecast-temperature">
+            <strong>15°</strong>
+           </div>
+          <div class="forecast-temperature">9°</div>
+        </div>
+      </div>
+    `;
+    });
+
+    let forecastElement = document.querySelector("#forecast");
+    forecastElement.innerHTML = forecastHtml;
+  }
   
   let searchForm = document.querySelector("#search-form");
   searchForm.addEventListener("submit", search);
   
+  searchCity("New York");
+  displayForecast();
+
+ 
   
